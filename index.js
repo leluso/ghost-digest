@@ -5,7 +5,7 @@ import GhostAdminAPI from '@tryghost/admin-api';
 
 const ghostUrl = core.getInput('url');
 const period = core.getInput('period');
-const debug = core.getBooleanInput('debug');
+const debug = core.getInput('debug').toLowerCase() === 'true';
 const tags = core.getInput('tags') || 'Digest';
 const excludedTagsInput = core.getInput('excluded_tags', '');
 const excludedTags = excludedTagsInput.split(',').map(tag => tag.trim());
@@ -74,9 +74,9 @@ async function generateDigests(startDate, period, api) {
   });
 
   if(debug) {
-    for(const post of posts) {
-      core.debug(`Full post JSON ${JSON.stringify(post, null, 2)}`);
-    }
+    posts.forEach(post =>
+      core.debug(`Post ${post.title} with tags ${post.tags.map(({name}) => name).join(',')}`)
+    )
   }
 
   filteredPosts = filteredPosts.filter(

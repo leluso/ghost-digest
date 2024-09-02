@@ -7,7 +7,7 @@ inputs:
   debug:
     description: 'Enable debug logging'
     required: false
-    default: false
+    default: 'false'
   url:
     description: 'URL of the Ghost blog'
     required: true
