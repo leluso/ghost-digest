@@ -7,7 +7,7 @@ const ghostUrl = core.getInput('url');
 const period = core.getInput('period');
 const debug = core.getBooleanInput('debug');
 const tags = core.getInput('tags') || 'Digest';
-const excludedTagsInput = core.getInput('skipped_tags', '');
+const excludedTagsInput = core.getInput('excluded_tags', '');
 const excludedTags = excludedTagsInput.split(',').map(tag => tag.strip());
 const timezone = core.getInput('timezone') || 'America/Chicago';
 const title = core.getInput('title') || `${period.charAt(0).toUpperCase() + period.slice(1)} Digest`;
