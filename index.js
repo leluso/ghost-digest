@@ -71,7 +71,7 @@ async function generateDigests(startDate, period, api) {
     let pubDate = moment(post.published_at).tz(timezone).startOf('day');
     return pubDate.isSameOrAfter(start) && pubDate.isBefore(end);
   }).filter(
-    post => post.tags.every(postTag => !excludedTags.includes(postTag))
+    post => post.tags.every(postTag => !excludedTags.includes(postTag.name))
   );
 
   if (debug) core.debug(`Filtered ${filteredPosts.length} posts for the ${period} digest.`);
