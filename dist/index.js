@@ -53225,6 +53225,7 @@ const debug = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getBooleanInput('debug'
 const tags = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput('tags') || 'Digest';
 const excludedTagsInput = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput('excluded_tags', '');
 const excludedTags = excludedTagsInput.split(',').map(tag => tag.trim());
+_actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Excluded tags: ${excludedTags.join(', ')}`);
 const timezone = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput('timezone') || 'America/Chicago';
 const title = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput('title') || `${period.charAt(0).toUpperCase() + period.slice(1)} Digest`;
 
@@ -53286,14 +53287,17 @@ async function generateDigests(startDate, period, api) {
   let filteredPosts = posts.filter(post => {
     let pubDate = moment_timezone__WEBPACK_IMPORTED_MODULE_1__(post.published_at).tz(timezone).startOf('day');
     return pubDate.isSameOrAfter(start) && pubDate.isBefore(end);
-  }).filter(
-    post => post.tags.every(postTag => !excludedTags.includes(postTag.name))
-  );
+  });
+
   if(debug) {
     for(const post of posts) {
       _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Full post JSON ${JSON.stringify(post, null, 2)}`);
     }
   }
+
+  filteredPosts = filteredPosts.filter(
+    post => post.tags.every(postTag => !excludedTags.includes(postTag.name))
+  );
 
   if (debug) _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Filtered ${filteredPosts.length} posts for the ${period} digest.`);
 

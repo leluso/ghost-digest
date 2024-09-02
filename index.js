@@ -9,6 +9,7 @@ const debug = core.getBooleanInput('debug');
 const tags = core.getInput('tags') || 'Digest';
 const excludedTagsInput = core.getInput('excluded_tags', '');
 const excludedTags = excludedTagsInput.split(',').map(tag => tag.trim());
+core.debug(`Excluded tags: ${excludedTags.join(', ')}`);
 const timezone = core.getInput('timezone') || 'America/Chicago';
 const title = core.getInput('title') || `${period.charAt(0).toUpperCase() + period.slice(1)} Digest`;
 
@@ -70,14 +71,17 @@ async function generateDigests(startDate, period, api) {
   let filteredPosts = posts.filter(post => {
     let pubDate = moment(post.published_at).tz(timezone).startOf('day');
     return pubDate.isSameOrAfter(start) && pubDate.isBefore(end);
-  }).filter(
-    post => post.tags.every(postTag => !excludedTags.includes(postTag.name))
-  );
+  });
+
   if(debug) {
     for(const post of posts) {
       core.debug(`Full post JSON ${JSON.stringify(post, null, 2)}`);
     }
   }
+
+  filteredPosts = filteredPosts.filter(
+    post => post.tags.every(postTag => !excludedTags.includes(postTag.name))
+  );
 
   if (debug) core.debug(`Filtered ${filteredPosts.length} posts for the ${period} digest.`);
 
