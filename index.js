@@ -33,7 +33,7 @@ function generateMarkdownDigest(posts, period) {
   let markdown = '';
 
   posts.forEach(post => {
-    if (debug) core.debug(`Processing post: ${post.title} with tags ${post.tags.map(({name}) => name).join(',')`);
+    if (debug) core.debug(`Processing post: ${post.title} with tags ${post.tags.map(({name}) => name).join(',')}`);
     markdown += `## ${post.title}\n`;
     markdown += `**Date:** ${moment(post.published_at).format('YYYY-MM-DD')}\n\n`;
 
