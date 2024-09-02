@@ -53224,7 +53224,7 @@ const period = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput('period');
 const debug = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getBooleanInput('debug');
 const tags = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput('tags') || 'Digest';
 const excludedTagsInput = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput('excluded_tags', '');
-const excludedTags = excludedTagsInput.split(',').map(tag => tag.strip());
+const excludedTags = excludedTagsInput.split(',').map(tag => tag.trim());
 const timezone = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput('timezone') || 'America/Chicago';
 const title = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput('title') || `${period.charAt(0).toUpperCase() + period.slice(1)} Digest`;
 
