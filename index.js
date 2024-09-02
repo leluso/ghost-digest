@@ -33,7 +33,7 @@ function generateMarkdownDigest(posts, period) {
   let markdown = '';
 
   posts.forEach(post => {
-    if (debug) core.debug(`Processing post: ${post.title}`);
+    if (debug) core.debug(`Processing post: ${post.title} with tags ${post.tags.map(({name}) => name).join(',')`);
     markdown += `## ${post.title}\n`;
     markdown += `**Date:** ${moment(post.published_at).format('YYYY-MM-DD')}\n\n`;
 
@@ -75,7 +75,7 @@ async function generateDigests(startDate, period, api) {
   );
   if(debug) {
     for(const post of posts) {
-      core.debug(JSON.stringify(post, null, 2));
+      core.debug(`Full post JSON ${JSON.stringify(post, null, 2)}`);
     }
   }
 
