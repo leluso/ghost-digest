@@ -83,6 +83,11 @@ async function generateDigests(startDate, period, api) {
     post => post.tags.every(postTag => !excludedTags.includes(postTag.name))
   );
 
+  // sort by published_at asc
+  filteredPosts.sort((a, b) =>
+     moment(a.published_at).isAfter(moment(b.published_at)) ? 1 : -1
+  );
+
   if (debug) core.debug(`Filtered ${filteredPosts.length} posts for the ${period} digest.`);
 
   let formattedDate;

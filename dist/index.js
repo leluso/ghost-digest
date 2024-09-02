@@ -53212,6 +53212,11 @@ async function generateDigests(startDate, period, api) {
     post => post.tags.every(postTag => !excludedTags.includes(postTag.name))
   );
 
+  // sort by published_at asc
+  filteredPosts.sort((a, b) =>
+     moment_timezone__WEBPACK_IMPORTED_MODULE_1__(a.published_at).isAfter(moment_timezone__WEBPACK_IMPORTED_MODULE_1__(b.published_at)) ? 1 : -1
+  );
+
   if (debug) _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Filtered ${filteredPosts.length} posts for the ${period} digest.`);
 
   let formattedDate;
