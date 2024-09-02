@@ -53149,7 +53149,7 @@ function isPeriod(period) {
 async function fetchPosts(api) {
   try {
     if (debug) _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug('Fetching posts from Ghost API...');
-    let posts = await api.posts.browse();
+    let posts = await api.posts.browse({limit: 200, order: 'published_at DESC'});
     if (debug) _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Fetched ${posts.length} posts from Ghost API.`);
 
     return posts;

@@ -20,7 +20,7 @@ function isPeriod(period) {
 async function fetchPosts(api) {
   try {
     if (debug) core.debug('Fetching posts from Ghost API...');
-    let posts = await api.posts.browse();
+    let posts = await api.posts.browse({limit: 200, order: 'published_at DESC'});
     if (debug) core.debug(`Fetched ${posts.length} posts from Ghost API.`);
 
     return posts;
