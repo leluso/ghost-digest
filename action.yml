@@ -19,7 +19,7 @@ inputs:
     description: 'Comma-separated list of tags for the digest post'
     required: false
     default: 'Digest'
-  tags:
+  excluded_tags:
     description: 'Comma separated list of tags; if a post has any of these tags, it will not be included'
     required: false
     default: ''
