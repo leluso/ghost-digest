@@ -73,6 +73,11 @@ async function generateDigests(startDate, period, api) {
   }).filter(
     post => post.tags.every(postTag => !excludedTags.includes(postTag.name))
   );
+  if(debug) {
+    for(const post of posts) {
+      core.debug(JSON.stringify(post, null, 2));
+    }
+  }
 
   if (debug) core.debug(`Filtered ${filteredPosts.length} posts for the ${period} digest.`);
 
