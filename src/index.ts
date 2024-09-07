@@ -159,7 +159,7 @@ async function generateDigests(
         source: "html",
       },
     );
-    core.setOutput("result", `Newsletter post created: ${response.data.slug}`);
+    core.setOutput("result", `Newsletter post created: ${response.slug}`);
   } catch (error) {
     core.setFailed(`Failed to create newsletter post: ${error}`);
   }

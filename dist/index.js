@@ -46716,7 +46716,7 @@ async function generateDigests(startDate, period, api) {
         }, {
             source: "html",
         });
-        _actions_core__WEBPACK_IMPORTED_MODULE_2__.setOutput("result", `Newsletter post created: ${response.data.slug}`);
+        _actions_core__WEBPACK_IMPORTED_MODULE_2__.setOutput("result", `Newsletter post created: ${response.slug}`);
     }
     catch (error) {
         _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed(`Failed to create newsletter post: ${error}`);
