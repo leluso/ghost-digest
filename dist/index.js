@@ -46618,7 +46618,6 @@ _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Excluded tags: ${excludedTags.
 const timezone = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("timezone") || "America/Chicago";
 const title = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("title") ||
     `${period.charAt(0).toUpperCase() + period.slice(1)} Digest`;
-const fullArticle = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("full_article").toLowerCase() === "true";
 function isPeriod(period) {
     return period.toLowerCase() === "daily" || period.toLowerCase() === "weekly";
 }
@@ -46653,14 +46652,8 @@ function generateMarkdownDigest(posts, period) {
         let imageUrl = post.feature_image ? post.feature_image : null;
         if (imageUrl)
             markdown += `![Image](${imageUrl})\n\n`;
-        if (fullArticle) {
-            markdown += `${post.html}\n\n`;
-            markdown += `[View article](${post.url})\n\n`;
-        }
-        else {
-            markdown += `${post.excerpt}...\n\n`;
-            markdown += `[Read more](${post.url})\n\n`;
-        }
+        markdown += `${post.html}\n\n`;
+        markdown += `[View article](${post.url})\n\n`;
     });
     return markdown;
 }
