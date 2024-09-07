@@ -47469,22 +47469,31 @@ async function fetchPosts(api) {
     try {
         if (debug)
             _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug("Fetching posts from Ghost API...");
-        let posts = await api.posts
-            .browse({
-            limit: 200,
-            order: "published_at DESC",
-        })
-            .fetch();
-        if (posts.success) {
-            if (debug) {
-                _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Fetched ${posts.data.length} posts from Ghost API.`);
+        let posts = [];
+        let lastBatch = null;
+        while (posts.length < 200 &&
+            (lastBatch == null || lastBatch.length === 0)) {
+            const response = await api.posts
+                .browse({
+                limit: 15,
+                order: "published_at DESC",
+            })
+                .fetch();
+            if (response.success) {
+                lastBatch = response.data;
+                posts = posts.concat(lastBatch);
             }
-            return posts.data;
+            else {
+                _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed(`Failed to fetch posts from Ghost API: ${response.errors.length > 0
+                    ? response.errors.join(",")
+                    : "Unknown error"}`);
+                return [];
+            }
         }
-        else {
-            _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed(`Failed to fetch posts from Ghost API: ${posts.errors.length > 0 ? posts.errors.join(",") : "Unknown error"}`);
-            return [];
+        if (debug) {
+            _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Fetched ${posts.length} posts from Ghost API.`);
         }
+        return posts;
     }
     catch (error) {
         _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed(`Failed to fetch posts from Ghost API: ${error}`);
