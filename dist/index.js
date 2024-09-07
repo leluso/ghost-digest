@@ -47433,59 +47433,42 @@ exports.NEVER = parseUtil_1.INVALID;
 /***/ }),
 
 /***/ 6144:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ ((module, __webpack_exports__, __nccwpck_require__) => {
+
+__nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __webpack_async_result__) => { try {
+/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
+/* harmony export */   "K": () => (/* binding */ run)
+/* harmony export */ });
+/* harmony import */ var showdown__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(1872);
+/* harmony import */ var showdown__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(showdown__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(7936);
+/* harmony import */ var moment_timezone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(moment_timezone__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_2__ = __nccwpck_require__(2186);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _ts_ghost_admin_api__WEBPACK_IMPORTED_MODULE_3__ = __nccwpck_require__(4553);
+/* harmony import */ var _ts_ghost_admin_api__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__nccwpck_require__.n(_ts_ghost_admin_api__WEBPACK_IMPORTED_MODULE_3__);
 
 
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.run = run;
-const showdown_1 = __importDefault(__nccwpck_require__(1872));
-const moment_timezone_1 = __importDefault(__nccwpck_require__(7936));
-const core = __importStar(__nccwpck_require__(2186));
-const admin_api_1 = __nccwpck_require__(4553);
-const ghostUrl = core.getInput("url");
-const period = core.getInput("period");
-const debug = core.getInput("debug").toLowerCase() === "true";
-const tags = core.getInput("tags") || "Digest";
-const excludedTagsInput = core.getInput("excluded_tags");
+
+
+const ghostUrl = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("url");
+const period = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("period");
+const debug = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("debug").toLowerCase() === "true";
+const tags = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("tags") || "Digest";
+const excludedTagsInput = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("excluded_tags");
 const excludedTags = excludedTagsInput.split(",").map((tag) => tag.trim());
-core.debug(`Excluded tags: ${excludedTags.join(", ")}`);
-const timezone = core.getInput("timezone") || "America/Chicago";
-const title = core.getInput("title") ||
+_actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Excluded tags: ${excludedTags.join(", ")}`);
+const timezone = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("timezone") || "America/Chicago";
+const title = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("title") ||
     `${period.charAt(0).toUpperCase() + period.slice(1)} Digest`;
-const fullArticle = core.getInput("full_article").toLowerCase() === "true";
+const fullArticle = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("full_article").toLowerCase() === "true";
 function isPeriod(period) {
     return period.toLowerCase() === "daily" || period.toLowerCase() === "weekly";
 }
 async function fetchPosts(api) {
     try {
         if (debug)
-            core.debug("Fetching posts from Ghost API...");
+            _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug("Fetching posts from Ghost API...");
         let posts = await api.posts
             .browse({
             limit: 200,
@@ -47494,30 +47477,30 @@ async function fetchPosts(api) {
             .fetch();
         if (posts.success) {
             if (debug) {
-                core.debug(`Fetched ${posts.data.length} posts from Ghost API.`);
+                _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Fetched ${posts.data.length} posts from Ghost API.`);
             }
             return posts.data;
         }
         else {
-            core.setFailed(`Failed to fetch posts from Ghost API: ${posts.errors.length > 0 ? posts.errors.join(",") : "Unknown error"}`);
+            _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed(`Failed to fetch posts from Ghost API: ${posts.errors.length > 0 ? posts.errors.join(",") : "Unknown error"}`);
             return [];
         }
     }
     catch (error) {
-        core.setFailed(`Failed to fetch posts from Ghost API: ${error}`);
+        _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed(`Failed to fetch posts from Ghost API: ${error}`);
         return [];
     }
 }
 function generateMarkdownDigest(posts, period) {
     if (debug)
-        core.debug(`Generating ${period} digest for ${posts.length} posts.`);
+        _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Generating ${period} digest for ${posts.length} posts.`);
     let markdown = "";
     posts.forEach((post) => {
         if (debug) {
-            core.debug(`Processing post: ${post.title} with tags ${(post.tags || []).map(({ name }) => name).join(",")}`);
+            _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Processing post: ${post.title} with tags ${(post.tags || []).map(({ name }) => name).join(",")}`);
         }
         markdown += `## ${post.title}\n`;
-        markdown += `**Date:** ${(0, moment_timezone_1.default)(post.published_at).format("YYYY-MM-DD")}\n\n`;
+        markdown += `**Date:** ${moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(post.published_at).format("YYYY-MM-DD")}\n\n`;
         let imageUrl = post.feature_image ? post.feature_image : null;
         if (imageUrl)
             markdown += `![Image](${imageUrl})\n\n`;
@@ -47534,48 +47517,48 @@ function generateMarkdownDigest(posts, period) {
 }
 async function generateDigests(startDate, period, api) {
     if (debug)
-        core.debug(`Generating ${period} digest starting from ${startDate}.`);
+        _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Generating ${period} digest starting from ${startDate}.`);
     // Determine the end date based on the period
     let start, end;
     if (period.toLowerCase() === "weekly") {
-        start = moment_timezone_1.default.tz(startDate, "YYYY-MM-DD", timezone).startOf("day");
-        start = (0, moment_timezone_1.default)(startDate).subtract(1, "week").add(1, "day");
-        end = (0, moment_timezone_1.default)(start).add(1, "week");
+        start = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default().tz(startDate, "YYYY-MM-DD", timezone).startOf("day");
+        start = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(startDate).subtract(1, "week").add(1, "day");
+        end = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(start).add(1, "week");
     }
     else {
-        start = moment_timezone_1.default.tz(startDate, "YYYY-MM-DD", timezone).startOf("day");
-        end = (0, moment_timezone_1.default)(start).add(1, "day");
+        start = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default().tz(startDate, "YYYY-MM-DD", timezone).startOf("day");
+        end = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(start).add(1, "day");
     }
     end.set({ hour: 0, minute: 0, second: 0, millisecond: 0 });
     if (debug)
-        core.debug(`Date range: ${start.toISOString()} to ${end.toISOString()}`);
+        _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Date range: ${start.toISOString()} to ${end.toISOString()}`);
     let posts = await fetchPosts(api);
     let filteredPosts = posts.filter((post) => {
-        let pubDate = (0, moment_timezone_1.default)(post.published_at).tz(timezone).startOf("day");
+        let pubDate = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(post.published_at).tz(timezone).startOf("day");
         return pubDate.isSameOrAfter(start) && pubDate.isBefore(end);
     });
     if (debug) {
-        posts.forEach((post) => core.debug(`Post ${post.title} with tags ${(post.tags || []).map(({ name }) => name).join(",")}`));
+        posts.forEach((post) => _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Post ${post.title} with tags ${(post.tags || []).map(({ name }) => name).join(",")}`));
     }
     filteredPosts = filteredPosts.filter((post) => post.tags == null ||
         post.tags.every((postTag) => !excludedTags.includes(postTag.name)));
     // sort by published_at asc
-    filteredPosts.sort((a, b) => (0, moment_timezone_1.default)(a.published_at).isAfter((0, moment_timezone_1.default)(b.published_at)) ? 1 : -1);
+    filteredPosts.sort((a, b) => moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(a.published_at).isAfter(moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(b.published_at)) ? 1 : -1);
     if (debug)
-        core.debug(`Filtered ${filteredPosts.length} posts for the ${period} digest.`);
+        _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Filtered ${filteredPosts.length} posts for the ${period} digest.`);
     let formattedDate;
     if (period.toLowerCase() === "weekly") {
-        formattedDate = `${start.format("M/D")} - ${(0, moment_timezone_1.default)(start).add(6, "days").format("M/D")}`; // Weekly date range
+        formattedDate = `${start.format("M/D")} - ${moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()(start).add(6, "days").format("M/D")}`; // Weekly date range
     }
     else {
         formattedDate = `${start.format("M/D")}`; // Daily date
     }
     let markdownDigest = generateMarkdownDigest(filteredPosts, period);
-    let converter = new showdown_1.default.Converter();
+    let converter = new (showdown__WEBPACK_IMPORTED_MODULE_0___default().Converter)();
     let htmlDigest = converter.makeHtml(markdownDigest);
     try {
         if (debug)
-            core.debug(`Creating newsletter post... ${period} ${formattedDate}`);
+            _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Creating newsletter post... ${period} ${formattedDate}`);
         let response = await api.posts.add({
             title: `${title} (${formattedDate})`,
             html: htmlDigest,
@@ -47585,47 +47568,49 @@ async function generateDigests(startDate, period, api) {
             source: "html",
         });
         if (response.success) {
-            core.setOutput("result", `Newsletter post created: ${response.data.slug}`);
+            _actions_core__WEBPACK_IMPORTED_MODULE_2__.setOutput("result", `Newsletter post created: ${response.data.slug}`);
         }
         else {
-            core.setFailed(`Failed to create newsletter post: ${response.errors.length > 0
+            _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed(`Failed to create newsletter post: ${response.errors.length > 0
                 ? response.errors.join(",")
                 : "Unknown error"}`);
         }
     }
     catch (error) {
-        core.setFailed(`Failed to create newsletter post: ${error}`);
+        _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed(`Failed to create newsletter post: ${error}`);
     }
 }
 async function run() {
     // Initialize Ghost Admin API
-    const api = new admin_api_1.TSGhostAdminAPI(ghostUrl, process.env.GHOST_API_KEY, "v5.0");
+    const api = new _ts_ghost_admin_api__WEBPACK_IMPORTED_MODULE_3__.TSGhostAdminAPI(ghostUrl, process.env.GHOST_API_KEY, "v5.0");
     try {
         let startDate;
         if (isPeriod(period)) {
-            startDate = (0, moment_timezone_1.default)().tz(timezone).format("YYYY-MM-DD");
+            startDate = moment_timezone__WEBPACK_IMPORTED_MODULE_1___default()().tz(timezone).format("YYYY-MM-DD");
         }
         else {
             if (period.match(/^\d{4}-\d{2}-\d{2}$/)) {
                 startDate = period; // Use provided date
             }
-            core.setFailed(`Invalid date format: ${period}`);
+            _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed(`Invalid date format: ${period}`);
             return;
         }
         if (!isPeriod(period) && !startDate) {
-            core.setFailed("Please provide a period (Daily or Weekly) or a start date.");
+            _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed("Please provide a period (Daily or Weekly) or a start date.");
             return;
         }
         if (debug)
-            core.debug(`Starting digest generation with startDate: ${startDate} and period: ${period}`);
+            _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Starting digest generation with startDate: ${startDate} and period: ${period}`);
         await generateDigests(startDate, period, api);
     }
     catch (error) {
-        core.setFailed(`Action failed with error: ${error}`);
+        _actions_core__WEBPACK_IMPORTED_MODULE_2__.setFailed(`Action failed with error: ${error}`);
     }
 }
-// await run();
+await run();
 
+__webpack_async_result__();
+} catch(e) { __webpack_async_result__(e); } }, 1);
 
 /***/ }),
 
@@ -49509,6 +49494,104 @@ module.exports = JSON.parse('{"version":"2024a","zones":["Africa/Abidjan|LMT GMT
 /******/ }
 /******/ 
 /************************************************************************/
+/******/ /* webpack/runtime/async module */
+/******/ (() => {
+/******/ 	var webpackQueues = typeof Symbol === "function" ? Symbol("webpack queues") : "__webpack_queues__";
+/******/ 	var webpackExports = typeof Symbol === "function" ? Symbol("webpack exports") : "__webpack_exports__";
+/******/ 	var webpackError = typeof Symbol === "function" ? Symbol("webpack error") : "__webpack_error__";
+/******/ 	var resolveQueue = (queue) => {
+/******/ 		if(queue && !queue.d) {
+/******/ 			queue.d = 1;
+/******/ 			queue.forEach((fn) => (fn.r--));
+/******/ 			queue.forEach((fn) => (fn.r-- ? fn.r++ : fn()));
+/******/ 		}
+/******/ 	}
+/******/ 	var wrapDeps = (deps) => (deps.map((dep) => {
+/******/ 		if(dep !== null && typeof dep === "object") {
+/******/ 			if(dep[webpackQueues]) return dep;
+/******/ 			if(dep.then) {
+/******/ 				var queue = [];
+/******/ 				queue.d = 0;
+/******/ 				dep.then((r) => {
+/******/ 					obj[webpackExports] = r;
+/******/ 					resolveQueue(queue);
+/******/ 				}, (e) => {
+/******/ 					obj[webpackError] = e;
+/******/ 					resolveQueue(queue);
+/******/ 				});
+/******/ 				var obj = {};
+/******/ 				obj[webpackQueues] = (fn) => (fn(queue));
+/******/ 				return obj;
+/******/ 			}
+/******/ 		}
+/******/ 		var ret = {};
+/******/ 		ret[webpackQueues] = x => {};
+/******/ 		ret[webpackExports] = dep;
+/******/ 		return ret;
+/******/ 	}));
+/******/ 	__nccwpck_require__.a = (module, body, hasAwait) => {
+/******/ 		var queue;
+/******/ 		hasAwait && ((queue = []).d = 1);
+/******/ 		var depQueues = new Set();
+/******/ 		var exports = module.exports;
+/******/ 		var currentDeps;
+/******/ 		var outerResolve;
+/******/ 		var reject;
+/******/ 		var promise = new Promise((resolve, rej) => {
+/******/ 			reject = rej;
+/******/ 			outerResolve = resolve;
+/******/ 		});
+/******/ 		promise[webpackExports] = exports;
+/******/ 		promise[webpackQueues] = (fn) => (queue && fn(queue), depQueues.forEach(fn), promise["catch"](x => {}));
+/******/ 		module.exports = promise;
+/******/ 		body((deps) => {
+/******/ 			currentDeps = wrapDeps(deps);
+/******/ 			var fn;
+/******/ 			var getResult = () => (currentDeps.map((d) => {
+/******/ 				if(d[webpackError]) throw d[webpackError];
+/******/ 				return d[webpackExports];
+/******/ 			}))
+/******/ 			var promise = new Promise((resolve) => {
+/******/ 				fn = () => (resolve(getResult));
+/******/ 				fn.r = 0;
+/******/ 				var fnQueue = (q) => (q !== queue && !depQueues.has(q) && (depQueues.add(q), q && !q.d && (fn.r++, q.push(fn))));
+/******/ 				currentDeps.map((dep) => (dep[webpackQueues](fnQueue)));
+/******/ 			});
+/******/ 			return fn.r ? promise : getResult();
+/******/ 		}, (err) => ((err ? reject(promise[webpackError] = err) : outerResolve(exports)), resolveQueue(queue)));
+/******/ 		queue && (queue.d = 0);
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/compat get default export */
+/******/ (() => {
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__nccwpck_require__.n = (module) => {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			() => (module['default']) :
+/******/ 			() => (module);
+/******/ 		__nccwpck_require__.d(getter, { a: getter });
+/******/ 		return getter;
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/define property getters */
+/******/ (() => {
+/******/ 	// define getter functions for harmony exports
+/******/ 	__nccwpck_require__.d = (exports, definition) => {
+/******/ 		for(var key in definition) {
+/******/ 			if(__nccwpck_require__.o(definition, key) && !__nccwpck_require__.o(exports, key)) {
+/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			}
+/******/ 		}
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/hasOwnProperty shorthand */
+/******/ (() => {
+/******/ 	__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
+/******/ 
 /******/ /* webpack/runtime/node module decorator */
 /******/ (() => {
 /******/ 	__nccwpck_require__.nmd = (module) => {
@@ -49526,6 +49609,9 @@ module.exports = JSON.parse('{"version":"2024a","zones":["Africa/Abidjan|LMT GMT
 /******/ 
 /******/ // startup
 /******/ // Load entry module and return exports
-/******/ // This entry module is referenced by other modules so it can't be inlined
+/******/ // This entry module used 'module' so it can't be inlined
 /******/ var __webpack_exports__ = __nccwpck_require__(6144);
+/******/ __webpack_exports__ = await __webpack_exports__;
+/******/ var __webpack_exports__run = __webpack_exports__.K;
+/******/ export { __webpack_exports__run as run };
 /******/ 

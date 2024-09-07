@@ -212,4 +212,4 @@ export async function run() {
   }
 }
 
-// await run();
+await run();

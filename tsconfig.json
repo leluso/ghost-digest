@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es2019",                        // Modern ECMAScript target
-    "module": "commonjs",                      // GitHub Actions uses Node.js, so CommonJS is needed
+    "target": "esnext",                        // Modern ECMAScript target
+    "module": "esnext",                      // GitHub Actions uses Node.js, so CommonJS is needed
     "strict": true,                            // Enable strict type-checking
     "esModuleInterop": true,                   // Interoperability between CommonJS and ES modules
     "skipLibCheck": true,                      // Skip checking .d.ts files for faster build
