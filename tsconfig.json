@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2019",                        // Modern ECMAScript target
+    "module": "commonjs",                      // GitHub Actions uses Node.js, so CommonJS is needed
+    "strict": true,                            // Enable strict type-checking
+    "esModuleInterop": true,                   // Interoperability between CommonJS and ES modules
+    "skipLibCheck": true,                      // Skip checking .d.ts files for faster build
+    "forceConsistentCasingInFileNames": true,  // Ensure consistent casing in imports
+    "moduleResolution": "node",                // Use Node.js module resolution
+    "outDir": "./dist",                        // Output directory for compiled files
+    "rootDir": "./src",                        // Source directory
+    "lib": ["es2019"],                         // Include ECMAScript 2019 library for modern JS features
+    "resolveJsonModule": true,                 // Allows importing .json files
+    "allowSyntheticDefaultImports": true,      // Allow default imports even if not explicitly set
+    "declaration": true                        // Generate .d.ts files for type definitions
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]  // Exclude test files if you don't need them in the final build
+}

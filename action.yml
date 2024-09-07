@@ -30,9 +30,13 @@ inputs:
     description: 'Timezone to use for date calculations'
     required: false
     default: 'America/Chicago'
+  full_article:
+    description: 'Include full article content in the digest post'
+    required: false
+    default: 'false'
 outputs:
   result:
     description: 'The result of the digest generation'
 runs:
   using: 'node20'
-  main: 'dist/index.js'
+  main: 'dist/index.ts'

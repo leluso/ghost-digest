@@ -64,7 +64,7 @@ dependencies installed:
 
 ```bash
 npm install
-node index.js
+node index.ts
 ```
 
 Make sure to set the necessary environment variables for local testing, such as `GHOST_API_KEY`.

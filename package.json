@@ -9,18 +9,22 @@
   "scripts": {
     "test": "vitest",
     "start": "node index.js",
-    "build": "ncc build index.js --license licenses.txt -o dist"
+    "build": "ncc build src/index.ts --license licenses.txt -o dist"
   },
   "dependencies": {
     "@actions/core": "^1.10.1",
     "@tryghost/admin-api": "^1.13.12",
+    "@ts-ghost/admin-api": "^4.2.1",
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
     "showdown": "^2.1.0"
   },
   "devDependencies": {
+    "@types/showdown": "^2.0.6",
     "@vercel/ncc": "^0.38.1",
     "msw": "^2.3.5",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.4",
     "vitest": "^2.0.5"
   }
 }
