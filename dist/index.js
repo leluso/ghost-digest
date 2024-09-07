@@ -46726,7 +46726,7 @@ async function run() {
     // Initialize Ghost Admin API
     const api = new (_tryghost_admin_api__WEBPACK_IMPORTED_MODULE_3___default())({
         url: ghostUrl,
-        token: process.env.GHOST_API_KEY,
+        key: process.env.GHOST_API_KEY,
         version: "v5.0",
     });
     try {

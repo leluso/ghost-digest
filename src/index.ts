@@ -169,7 +169,7 @@ export async function run() {
   // Initialize Ghost Admin API
   const api = new GhostAdminAPI({
     url: ghostUrl,
-    token: process.env.GHOST_API_KEY!,
+    key: process.env.GHOST_API_KEY!,
     version: "v5.0",
   });
 
