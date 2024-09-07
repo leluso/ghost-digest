@@ -39,4 +39,4 @@ outputs:
     description: 'The result of the digest generation'
 runs:
   using: 'node20'
-  main: 'dist/index.ts'
+  main: 'dist/index.js'
