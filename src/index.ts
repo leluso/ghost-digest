@@ -1,7 +1,8 @@
 import showdown from "showdown";
 import moment from "moment-timezone";
 import * as core from "@actions/core";
-import { TSGhostAdminAPI, Post } from "@ts-ghost/admin-api";
+// @ts-ignore
+import GhostAdminAPI from "@tryghost/admin-api";
 
 const ghostUrl = core.getInput("url");
 const period = core.getInput("period");
@@ -20,35 +21,23 @@ function isPeriod(period: string): boolean {
   return period.toLowerCase() === "daily" || period.toLowerCase() === "weekly";
 }
 
-async function fetchPosts(api: TSGhostAdminAPI) {
+type Post = {
+  title: string;
+  tags: { name: string }[];
+  published_at: string;
+  feature_image: string;
+  html: string;
+  excerpt: string;
+  url: string;
+};
+
+async function fetchPosts(api: GhostAdminAPI) {
   try {
     if (debug) core.debug("Fetching posts from Ghost API...");
-    let posts: Post[] = [];
-    let lastBatch: Post[] | null = null;
-    while (
-      posts.length < 200 &&
-      (lastBatch == null || lastBatch.length === 0)
-    ) {
-      const response = await api.posts
-        .browse({
-          limit: 15,
-          order: "published_at DESC",
-        })
-        .fetch();
-      if (response.success) {
-        lastBatch = response.data;
-        posts = posts.concat(lastBatch);
-      } else {
-        core.setFailed(
-          `Failed to fetch posts from Ghost API: ${
-            response.errors.length > 0
-              ? response.errors.join(",")
-              : "Unknown error"
-          }`,
-        );
-        return [];
-      }
-    }
+    const posts: Post[] = await api.posts.browse({
+      limit: 200,
+      order: "published_at DESC",
+    });
 
     if (debug) {
       core.debug(`Fetched ${posts.length} posts from Ghost API.`);
@@ -92,7 +81,7 @@ function generateMarkdownDigest(posts: Post[], period: string) {
 async function generateDigests(
   startDate: string,
   period: string,
-  api: TSGhostAdminAPI,
+  api: GhostAdminAPI,
 ) {
   if (debug)
     core.debug(`Generating ${period} digest starting from ${startDate}.`);
@@ -170,20 +159,7 @@ async function generateDigests(
         source: "html",
       },
     );
-    if (response.success) {
-      core.setOutput(
-        "result",
-        `Newsletter post created: ${response.data.slug}`,
-      );
-    } else {
-      core.setFailed(
-        `Failed to create newsletter post: ${
-          response.errors.length > 0
-            ? response.errors.join(",")
-            : "Unknown error"
-        }`,
-      );
-    }
+    core.setOutput("result", `Newsletter post created: ${response.data.slug}`);
   } catch (error) {
     core.setFailed(`Failed to create newsletter post: ${error}`);
   }
@@ -191,7 +167,11 @@ async function generateDigests(
 
 export async function run() {
   // Initialize Ghost Admin API
-  const api = new TSGhostAdminAPI(ghostUrl, process.env.GHOST_API_KEY!, "v5.0");
+  const api = new GhostAdminAPI({
+    url: ghostUrl,
+    token: process.env.GHOST_API_KEY!,
+    version: "v5.0",
+  });
 
   try {
     let startDate: string;
