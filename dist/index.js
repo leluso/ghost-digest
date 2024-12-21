@@ -46613,6 +46613,7 @@ const period = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("period");
 const debug = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("debug").toLowerCase() === "true";
 const tags = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("tags") || "Digest";
 const excludedTagsInput = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("excluded_tags");
+const draft = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("draft").toLowerCase() !== "false";
 const excludedTags = excludedTagsInput.split(",").map((tag) => tag.trim());
 _actions_core__WEBPACK_IMPORTED_MODULE_2__.debug(`Excluded tags: ${excludedTags.join(", ")}`);
 const timezone = _actions_core__WEBPACK_IMPORTED_MODULE_2__.getInput("timezone") || "America/Chicago";
@@ -46705,7 +46706,7 @@ async function generateDigests(startDate, period, api) {
             title: `${title} (${formattedDate})`,
             html: htmlDigest,
             tags: tags.split(",").map((tag) => ({ name: tag.trim() })), // Convert comma-separated tags to array
-            status: "draft",
+            status: draft ? "draft" : "published",
         }, {
             source: "html",
         });

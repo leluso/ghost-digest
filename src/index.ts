@@ -9,6 +9,7 @@ const period = core.getInput("period");
 const debug = core.getInput("debug").toLowerCase() === "true";
 const tags = core.getInput("tags") || "Digest";
 const excludedTagsInput = core.getInput("excluded_tags");
+const draft = core.getInput("draft").toLowerCase() !== "false";
 const excludedTags = excludedTagsInput.split(",").map((tag) => tag.trim());
 core.debug(`Excluded tags: ${excludedTags.join(", ")}`);
 const timezone = core.getInput("timezone") || "America/Chicago";
@@ -147,7 +148,7 @@ async function generateDigests(
         title: `${title} (${formattedDate})`,
         html: htmlDigest,
         tags: tags.split(",").map((tag) => ({ name: tag.trim() })), // Convert comma-separated tags to array
-        status: "draft",
+        status: draft ? "draft" : "published",
       },
       {
         source: "html",
