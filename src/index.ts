@@ -65,7 +65,7 @@ function generateMarkdownDigest(posts: Post[], period: string) {
     let imageUrl = post.feature_image ? post.feature_image : null;
     if (imageUrl) markdown += `![Image](${imageUrl})\n\n`;
 
-    markdown += `${post.html}\n\n`;
+    markdown += `${post.excerpt}\n\n`;
     markdown += `[View article](${post.url})\n\n`;
   });
 
