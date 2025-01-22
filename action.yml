@@ -30,6 +30,10 @@ inputs:
     description: 'Timezone to use for date calculations'
     required: false
     default: 'America/Chicago'
+  excerpt_mode:
+    description: 'Content mode for posts: "excerpt" (default, shows excerpt with link), "full" (complete content with link), or "printable" (complete content without links)'
+    required: false
+    default: 'excerpt'
 outputs:
   result:
     description: 'The result of the digest generation'
