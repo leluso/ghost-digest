@@ -11,6 +11,7 @@ export const handlers = [
             published_at: new Date().toISOString(),
             feature_image: 'https://example.com/image1.jpg',
             excerpt: 'Excerpt of test post 1',
+            html: '<p>Full content of test post 1</p><p>With multiple paragraphs</p><p>And <a href="https://example.com">links</a></p>',
             url: 'https://example.com/test-post-1'
           },
           {
@@ -18,6 +19,7 @@ export const handlers = [
             published_at: new Date().toISOString(),
             feature_image: 'https://example.com/image2.jpg',
             excerpt: 'Excerpt of test post 2',
+            html: '<p>Full content of test post 2</p><p>With its own paragraphs</p><p>And <a href="https://example.com">different links</a></p>',
             url: 'https://example.com/test-post-2'
           }
         ]
