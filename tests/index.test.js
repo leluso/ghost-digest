@@ -30,6 +30,8 @@ describe("GitHub Action", () => {
         }),
         getBooleanInput: vi.fn(() => true),
         debug: vi.fn((log) => (logs += log + "\n")),
+        setFailed: vi.fn((log) => (logs += log + "\n")),
+        info: vi.fn((log) => (logs += log + "\n")),
       };
     });
   });
@@ -38,7 +40,7 @@ describe("GitHub Action", () => {
     ({ run } = await import("../src/index.ts"));
     await run();
 
-    expect(logs).toContain("Generating daily digest");
+    expect(logs).toContain("Generating daily digest starting from");
     expect(logs).toContain("Processing post: Test Post 1");
     expect(logs).toContain("Processing post: Test Post 2");
     expect(logs).toContain("Creating newsletter post...");
@@ -49,7 +51,7 @@ describe("GitHub Action", () => {
     ({ run } = await import("../src/index.ts"));
     await run();
 
-    expect(logs).toContain("Generating weekly digest");
+    expect(logs).toContain("Generating weekly digest starting from");
     expect(logs).toContain("Processing post: Test Post 1");
     expect(logs).toContain("Processing post: Test Post 2");
     expect(logs).toContain("Creating newsletter post...");

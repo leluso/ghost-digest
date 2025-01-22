@@ -25,6 +25,16 @@ export const handlers = [
         ]
     });
   }),
+  http.get('https://example.com/ghost/api/admin/newsletters', () => {
+    return HttpResponse.json({
+      newsletters: [{
+        id: '1',
+        name: 'Default Newsletter',
+        slug: 'default-newsletter'
+      }]
+    });
+  }),
+
   http.post('https://example.com/ghost/api/admin/posts', () => {
     return HttpResponse.json({ success: true });
   })
