@@ -13,6 +13,14 @@ const draft = core.getInput("draft").toLowerCase() !== "false";
 const excludedTags = excludedTagsInput.split(",").map((tag) => tag.trim());
 core.debug(`Excluded tags: ${excludedTags.join(", ")}`);
 const timezone = core.getInput("timezone") || "America/Chicago";
+const excerptMode = core.getInput("excerpt_mode").toLowerCase() || "excerpt";
+
+// Validate excerpt_mode
+if (!["excerpt", "full", "printable"].includes(excerptMode)) {
+  core.setFailed(`Invalid excerpt_mode: ${excerptMode}. Must be one of: excerpt, full, printable`);
+  return;
+}
+
 const title =
   core.getInput("title") ||
   `${period.charAt(0).toUpperCase() + period.slice(1)} Digest`;
@@ -66,8 +74,19 @@ function generateMarkdownDigest(posts: Post[], period: string) {
     let imageUrl = post.feature_image ? post.feature_image : null;
     if (imageUrl) markdown += `![Image](${imageUrl})\n\n`;
 
-    markdown += `${post.excerpt}\n\n`;
-    markdown += `[View article](${post.url})\n\n`;
+    switch (excerptMode) {
+      case "excerpt":
+        markdown += `${post.excerpt}\n\n`;
+        markdown += `[View article](${post.url})\n\n`;
+        break;
+      case "full":
+        markdown += `${post.html}\n\n`;
+        markdown += `[View article](${post.url})\n\n`;
+        break;
+      case "printable":
+        markdown += `${post.html}\n\n`;
+        break;
+    }
   });
 
   return markdown;
